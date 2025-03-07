@@ -44,6 +44,15 @@ public class ProductController {
 		}
 	}
 	
+	@GetMapping("/barcode/{barcode}")
+	public ResponseEntity<Object> getByBarcode(@PathVariable String barcode) {
+		try { 
+			return new ResponseEntity<Object>(productRepository.findByBarcode(barcode).get(), HttpStatus.OK);
+		} catch(NoSuchElementException e) {
+			return new ResponseEntity<Object>("Product with barcode "+barcode+" was not found.", HttpStatus.NOT_FOUND);
+		}
+	}
+	
 	@PostMapping("")
 	public ResponseEntity<Object> create(@RequestBody ProductDTO productDTO) {
 		try {
